@@ -1,2 +1,78 @@
-# RAG---Try-to-debug
-Here have all type of RAG concept with error, the goal is to debug and use it.
+# 🛠️ RAG — Try to Debug
+
+[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
+[![LangChain](https://img.shields.io/badge/Framework-LangChain-green.svg)](https://python.langchain.com/)
+
+Welcome to **RAG — Try to Debug**! This repository is a curated collection of **Retrieval-Augmented Generation (RAG)** architectures ranging from foundational approaches to state-of-the-art advanced techniques.
+
+Each notebook contains a complete RAG implementation flow designed as a **hands-on debugging challenge** and **reference implementation**. Your goal is to inspect, debug, run, and master each RAG pattern!
+
+---
+
+## 📌 Repository Structure
+
+```text
+RAG---Try-to-debug/
+├── Basic RAG/
+│   ├── naive_rag.ipynb                 # Naive RAG Architecture
+│   └── unstructured_rag.ipynb          # Unstructured & Semi-Structured RAG
+└── Advanced RAG/
+    ├── contextual_rag.ipynb            # Contextual Compression RAG
+    ├── fusion_rag.ipynb                # RAG-Fusion (Reciprocal Rank Fusion)
+    ├── hybrid_rag.ipynb                # Hybrid Search (Dense + Sparse/BM25)
+    ├── hyde_rag.ipynb                  # Hypothetical Document Embeddings (HyDE)
+    ├── parent_document_retriever.ipynb    # Parent Document Retriever
+    └── rewrite_retrieve_read.ipynb     # Query Rewriter Framework (RRR)
+```
+
+---
+
+## 🧠 RAG Techniques & Architecture Overview
+
+| Technique | Category | Description | Components Used | File Link |
+| :--- | :--- | :--- | :--- | :--- |
+| **Naive RAG** | Basic | Foundational approach retrieving relevant document chunks to provide context to an LLM. | `OpenAIEmbeddings`, Pinecone / FAISS, `ChatOpenAI` | [`naive_rag.ipynb`](./Basic%20RAG/naive_rag.ipynb) |
+| **Unstructured RAG** | Basic | Parses unstructured data (PDFs, tables, images) using `unstructured.io` for semantic search. | `unstructured.io`, `OpenAIEmbeddings`, FAISS, `ChatOpenAI` | [`unstructured_rag.ipynb`](./Basic%20RAG/unstructured_rag.ipynb) |
+| **Contextual RAG** | Advanced | Adds contextual compression to document chunks before retrieval to filter out noise. | `OpenAIEmbeddings`, Chroma, `ContextualCompressionRetriever`, `ChatOpenAI` | [`contextual_rag.ipynb`](./Advanced%20RAG/contextual_rag.ipynb) |
+| **RAG Fusion** | Advanced | Generates multiple sub-queries from a single question and re-ranks retrieved results using Reciprocal Rank Fusion (RRF). | `OpenAIEmbeddings`, Qdrant / Chroma, RRF, `ChatOpenAI` | [`fusion_rag.ipynb`](./Advanced%20RAG/fusion_rag.ipynb) |
+| **Hybrid RAG** | Advanced | Combines dense vector similarity search with sparse keyword search (BM25) using ensemble weighting. | `OpenAIEmbeddings`, Chroma / Qdrant, `BM25Retriever`, `EnsembleRetriever`, `ChatOpenAI` | [`hybrid_rag.ipynb`](./Advanced%20RAG/hybrid_rag.ipynb) |
+| **HyDE RAG** | Advanced | Uses an LLM to generate a hypothetical answer/document to search for relevant real context. | `OpenAIEmbeddings`, Weaviate / Chroma, `ChatOpenAI` | [`hyde_rag.ipynb`](./Advanced%20RAG/hyde_rag.ipynb) |
+| **Parent Document Retriever** | Advanced | Uses smaller child chunks for precise vector matching while returning larger parent documents for full context. | `OpenAIEmbeddings`, Chroma, `InMemoryStore`, `ParentDocumentRetriever`, `ChatOpenAI` | [`parent_document_retriever.ipynb`](./Advanced%20RAG/parent_document_retriever.ipynb) |
+| **Rewrite-Retrieve-Read (RRR)** | Advanced | First rewrites user queries into optimized search prompts before retrieval and LLM generation. | Query Rewriter (`ChatOpenAI`), `OpenAIEmbeddings`, Chroma, `ChatOpenAI` | [`rewrite_retrieve_read.ipynb`](./Advanced%20RAG/rewrite_retrieve_read.ipynb) |
+
+---
+
+## ⚡ Quick Start
+
+### 1. Clone the Repository
+```bash
+git clone https://github.com/GenOrcasXLabs/RAG---Try-to-debug.git
+cd RAG---Try-to-debug
+```
+
+### 2. Set Up Virtual Environment & Dependencies
+```bash
+python3 -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install langchain langchain-openai langchain-community chromadb pinecone-client qdrant-client rank_bm25 unstructured
+```
+
+### 3. Configure API Keys
+Ensure your environment variables or Google Colab `userdata` keys are configured:
+
+```python
+import os
+
+os.environ["OPENAI_API_KEY"] = "your-openai-api-key"
+os.environ["PINECONE_API_KEY"] = "your-pinecone-api-key"  # Optional
+os.environ["QDRANT_API_KEY"] = "your-qdrant-api-key"      # Optional
+```
+
+---
+
+## 🔍 How to Debug
+
+1. **Pick a RAG Technique**: Open any notebook in `Basic RAG/` or `Advanced RAG/`.
+2. **Trace the Pipeline**: Follow the step-by-step pipeline: **Document Loading ➡️ Text Splitting ➡️ Vector Store Indexing ➡️ Retriever Setup ➡️ RAG Chain Execution**.
+3. **Identify & Debug**: Test API key configurations, vector store connections, retriever parameters (`k` values, search thresholds), and prompt template formats.
+4. **Run & Verify**: Execute all cells and verify the final response generated by the RAG chain.
